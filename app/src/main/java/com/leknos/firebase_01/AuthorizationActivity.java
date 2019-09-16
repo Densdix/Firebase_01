@@ -36,7 +36,7 @@ public class AuthorizationActivity extends AppCompatActivity {
     private Button mSignIn;
     private Button mSignUp;
     private FirebaseAuth mAuth;
-
+    //Sign In Google
     private SignInButton mSignInGoogle;
 
     @Override
