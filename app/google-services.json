@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "560444254862-0qn0g7k4icgfoqgmd528ipkko4mq7nsd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.leknos.firebase_01",
+            "certificate_hash": "3fbc65b90c2ea35a2e73d809d47d001de5d325d8"
+          }
+        },
+        {
           "client_id": "560444254862-o7fqt00k7slp64cabi0cv5aaqdd56vdh.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

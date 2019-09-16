@@ -24,6 +24,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+//import com.google.firebase.database.DatabaseReference;
+//import com.google.firebase.database.FirebaseDatabase;
 
 public class AuthorizationActivity extends AppCompatActivity {
     private static final String TAG = "GoogleActivity";
@@ -38,6 +40,8 @@ public class AuthorizationActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     //Sign In Google Test
     private SignInButton mSignInGoogle;
+    private Button mSignOutButton;
+    private Button mdisconnectButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +57,8 @@ public class AuthorizationActivity extends AppCompatActivity {
         mSignUp = findViewById(R.id.sign_up);
 
         mSignInGoogle = findViewById(R.id.sign_in_button);
+        mSignOutButton = findViewById(R.id.signOutButton);
+        mdisconnectButton = findViewById(R.id.disconnectButton);
 
         mSignInGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +66,22 @@ public class AuthorizationActivity extends AppCompatActivity {
                 signIn();
             }
         });
+
+        mSignOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signOut();
+            }
+        });
+
+        mdisconnectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                revokeAccess();
+            }
+        });
+
+
 
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -169,6 +191,19 @@ public class AuthorizationActivity extends AppCompatActivity {
                 });
     }
 
+    private void revokeAccess() {
+        // Firebase sign out
+        mAuth.signOut();
+
+        // Google revoke access
+        mGoogleSignInClient.revokeAccess().addOnCompleteListener(this,
+                new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        updateUI(null);
+                    }
+                });
+    }
 
     public void createUserWithEmailAndPassword(String email, String password) {
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -179,13 +214,16 @@ public class AuthorizationActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("SUCCESS", "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            //String userId = mAuth.getCurrentUser().getUid();
+                            //DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+                            //currentUserDb.setValue(true);
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("FAILURE", "createUserWithEmail:failure", task.getException());
                             Toast.makeText(AuthorizationActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            //updateUI(null);
+                            updateUI(null);
                         }
 
                         // ...
@@ -208,7 +246,7 @@ public class AuthorizationActivity extends AppCompatActivity {
                             Log.w("FAILURE", "signInWithEmail:failure", task.getException());
                             Toast.makeText(AuthorizationActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            //updateUI(null);
+                            updateUI(null);
                         }
 
                         // ...
