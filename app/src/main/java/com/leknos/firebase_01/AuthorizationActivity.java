@@ -151,6 +151,9 @@ public class AuthorizationActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            String userId = mAuth.getCurrentUser().getUid();
+                            DatabaseReference currentUserLogin = FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("Login").child(user.getEmail().replace(".", "_"));
+                            currentUserLogin.setValue(true);
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -217,6 +220,10 @@ public class AuthorizationActivity extends AppCompatActivity {
                             String userId = mAuth.getCurrentUser().getUid();
                             DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
                             currentUserDb.setValue(true);
+                            DatabaseReference currentUserLogin = FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("Login").child(mLogin.getText().toString().replace(".", "_"));
+                            currentUserLogin.setValue(true);
+                            DatabaseReference currentUserPassword = FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("Password").child(mPassword.getText().toString());
+                            currentUserPassword.setValue(true);
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -240,6 +247,13 @@ public class AuthorizationActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("SUCCESS", "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            String userId = mAuth.getCurrentUser().getUid();
+                            DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+                            currentUserDb.setValue(true);
+                            DatabaseReference currentUserLogin = FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("Login").child(mLogin.getText().toString().replace(".", "_"));
+                            currentUserLogin.setValue(true);
+                            DatabaseReference currentUserPassword = FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("Password").child(mPassword.getText().toString());
+                            currentUserPassword.setValue(true);
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
