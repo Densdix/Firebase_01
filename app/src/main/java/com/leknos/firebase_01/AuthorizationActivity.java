@@ -24,8 +24,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-//import com.google.firebase.database.DatabaseReference;
-//import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class AuthorizationActivity extends AppCompatActivity {
     private static final String TAG = "GoogleActivity";
@@ -214,9 +214,9 @@ public class AuthorizationActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("SUCCESS", "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            //String userId = mAuth.getCurrentUser().getUid();
-                            //DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
-                            //currentUserDb.setValue(true);
+                            String userId = mAuth.getCurrentUser().getUid();
+                            DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+                            currentUserDb.setValue(true);
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
